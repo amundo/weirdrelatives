@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+<title>
+weird relatives
+</title>
+<meta charset=utf-8>
+<script src=ajax.js></script>
+
+<style>
+@font-face {
+  font-family: 'Heuristica';
+  src: url('css/fonts/heuristica-regular-webfont.woff'); 
+}
+body {
+  margin: 0 25% 0 1em ;
+}
+
+h1 { 
+  font-family: Impact;
+  text-align:center;
+  text-shadow: -1px 2px 2px gray;
+}
+
+div { 
+  font-family: Heuristica;
+  font-size: large;
+  line-height: 2;
+  text-indent: 1em;
+  text-shadow: -1px 1px 1px rgba(200,200,200,.7);
+  margin-bottom: 2em;
+  margin-left: 1em;
+}
+
+.source { 
+  text-align:right;
+}
+
+.source:before { 
+  content: '— ';
+}
+
+</style>
+
+</head>
+<body>
+
+<h1>
+weird relatives
+</h1>
+
+<template>
+<div>
+ <p class=example />
+ <!-- <p class=source>Unknown</p> -->
+ <!-- <blockquote class=note /> -->
+</div>
+</template>
+
+<script>
+
+var template = document.importNode(document.querySelector('template').content, true);
+
+function render(example){
+
+  var node = template.cloneNode(true);
+
+  Object
+    .keys(example)
+    .forEach(function(field){
+      try { 
+        var matched = node.querySelector('.' + field);
+        if(field in example){
+          matched.textContent = example[field];
+        }
+      } catch (e) { 
+        console.log(e);
+      }
+    })
+
+  document.body.appendChild(node);
+
+}
+
+//function sortCollection(collection, attr){
+//  var cmp = new Intl.Collator('en', { sensitivity: 'base' });
+//  collection.sort(
+// 
+//  return collection;
+//}
+
+getJSON('db.json', function(examples){
+
+
+  //examples = sortCollection(examples, 'source');
+  window.db = examples;
+
+  examples.forEach(render);
+})
+
+</script>
+</body>
+</html>
+
